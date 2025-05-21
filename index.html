@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>I'm Sorry Dhanvi 💔</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a6c1ee);
+      background-size: 400% 400%;
+      animation: gradientBG 10s ease infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      padding: 20px;
+      overflow: hidden;
+      color: #fff;
+    }
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .start-screen {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    .start-screen button {
+      background: white;
+      border: none;
+      padding: 15px 25px;
+      font-size: 18px;
+      border-radius: 30px;
+      cursor: pointer;
+      color: #333;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .card {
+      position: relative;
+      z-index: 2;
+      background: rgba(255,255,255,0.15);
+      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 25px;
+      max-width: 400px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+      display: none;
+    }
+    .title {
+      font-family: 'Pacifico', cursive;
+      font-size: 32px;
+      text-align: center;
+      margin-bottom: 15px;
+      animation: bounce 2s ease infinite alternate;
+    }
+    .message {
+      font-size: 16px;
+      line-height: 1.7;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+
+<div class="start-screen">
+  <button onclick="startApology()">💔 Tap to Start Apology</button>
+</div>
+
+<div class="card" id="card">
+  <div class="title">I'm Truly Sorry, Dhanvi 💔</div>
+  <div class="message" id="apology"></div>
+</div>
+
+<script>
+  const lines = [
+    "Dear Dhanvi,", "",
+    "There are no words that can fully express how sorry I am.",
+    "I know I hurt you, and that pain is something I never wanted to cause.",
+    "Please believe me when I say it was never my intention.", "",
+    "I've made mistakes... and I'm learning from them.",
+    "If I could go back, I would do things differently.", "",
+    "Every second apart makes me realize your true value.", "",
+    "I hope you find it in your heart to forgive me someday.",
+    "Until then, please know that my apology is sincere ", "",
+    "Forever sorry,", 
+  ];
+
+  const container = document.getElementById('apology');
+  const card = document.getElementById('card');
+  let lineIndex = 0, charIndex = 0;
+
+  function speakText(text) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 1.1;
+    utterance.pitch = 1;
+    speechSynthesis.speak(utterance);
+  }
+
+  function typeLine() {
+    if (lineIndex < lines.length) {
+      const currentLine = lines[lineIndex];
+      if (charIndex <= currentLine.length) {
+        container.innerHTML =
+          lines.slice(0, lineIndex).join("\n") +
+          "\n" +
+          currentLine.slice(0, charIndex) +
+          '<span class="cursor"></span>';
+
+        charIndex++;
+        setTimeout(typeLine, 35);
+        card.scrollTop = card.scrollHeight;
+
+      } else {
+        speakText(lines[lineIndex]);
+        charIndex = 0;
+        lineIndex++;
+        setTimeout(typeLine, 500);
+      }
+    } else {
+      container.innerHTML = lines.join("\n");
+    }
+  }
+
+  function startApology() {
+    document.querySelector('.start-screen').style.display = 'none';
+    card.style.display = 'block';
+    typeLine();
+  }
+</script>
+
+</body>
+</html>
